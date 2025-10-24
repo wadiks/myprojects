@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-init-job
+  labels:
+    app: user-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: mongo-init
+          image: mongo:5.0
+          command:
+            - /bin/bash
+            - -c
+            - |
+              until mongosh --host my-mongodb --port 27017 -u app-user -p app123 --authenticationDatabase userdb --eval "db.adminCommand('ismaster')"; do
+                sleep 5
+              done
+              
+              mongosh --host my-mongodb --port 27017 -u app-user -p app123 --authenticationDatabase userdb --eval "
+                db = db.getSiblingDB('userdb');
+              
+                if (!db.getCollectionNames().includes('users')) {
+                  db.createCollection('users');
+                  print('Collection users created');
+                }
+              
+                db.users.deleteMany({});
+              
+                db.users.insertMany([
+                  {
+                    'firstName': 'Иван',
+                    'lastName': 'Иванов', 
+                    'email': 'ivanov@example.com',
+                    'phone': '+79161234567'
+                  },
+                  {
+                    'firstName': 'Петр',
+                    'lastName': 'Петров',
+                    'email': 'petrov@example.com', 
+                    'phone': '+79169876543'
+                  },
+                  {
+                    'firstName': 'Мария',
+                    'lastName': 'Сидорова',
+                    'email': 'sidorova@example.com',
+                    'phone': '+79165544333'
+                  }
+                ]);
+              
+                print('Successfully created 3 test users');
+                print('Total users in database: ' + db.users.countDocuments());
+              "
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: userdb
+      restartPolicy: OnFailure
+  backoffLimit: 3

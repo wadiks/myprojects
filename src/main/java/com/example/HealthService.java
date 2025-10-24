@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @SpringBootApplication
 @RestController
+@RequestMapping("/user")
 public class HealthService {
 
     private final UsersDao userDao;
@@ -24,31 +25,29 @@ public class HealthService {
         return "{\"status\": \"OK\"}";
     }
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     public User addUsers(@RequestBody User user) {
 
         return userDao.save(user);
-
     }
 
-    @GetMapping("/user/get_all")
+    @GetMapping("/get_all")
     public List<User> getAllUsers() {
-        System.out.println("user = getall");
         return userDao.findAll();
     }
 
-    @GetMapping("/user/get/{id}")
+    @GetMapping("/get/{id}")
     public Optional<User> getUsers(@PathVariable("id") String id) {
         return userDao.findById(id);
     }
 
-    @DeleteMapping("/user/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") String id) {
         userDao.deleteById(id);
         return "ID " + id + " Delete";
     }
 
-    @PutMapping("/user/edit")
+    @PutMapping("/edit")
     public User editUsers( @RequestBody User user) {
     return userDao.save(user);
     }

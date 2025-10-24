@@ -22,3 +22,7 @@ Y
 .src/main/java/com/example/DataInitializer.java,5\a\5af0c8c59c3779c419ec40c1e05d3a39f891b654
 [
 +src/main/java/com/example/dao/UsersDao.java,4\e\4e91c0d210325d9a51eefb4a4399c457e9075de0
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0

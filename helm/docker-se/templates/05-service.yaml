@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  labels:
+    app: user-app
+spec:
+  selector:
+    app: user-app
+  ports:
+    - protocol: TCP
+      port: 80        # Внешний порт сервиса
+      targetPort: 8000 # Порт в контейнере
+  type: ClusterIP
