@@ -1,0 +1,7 @@
+auth:
+  enabled: true
+  database: userdb
+  username: app-user
+  password: app123
+  rootPassword: root123
+  rootUser: root
