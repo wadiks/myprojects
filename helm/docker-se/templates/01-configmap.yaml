@@ -2,21 +2,45 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: user-app-config
-  labels:
-    app: user-app
 data:
   application.yml: |
+    spring:
+      data:
+        mongodb:
+          host: my-mongodb
+          port: 27017
+          database: userdb
+          auto-index-creation: true
+
     server:
       port: 8000
       servlet:
         context-path: /
-    
-    spring:
-      data:
-        mongodb:
-          auto-index-creation: true
-    
+
     logging:
       level:
-        com.example: INFO
-        org.springframework.data.mongodb.core: DEBUG
+        com.example: DEBUG
+        org.springframework.data.mongodb: INFO
+
+    # НАСТРОЙКИ ACTUATOR
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,metrics,prometheus,info
+        enabled-by-default: true
+      endpoint:
+        health:
+          show-details: always
+          show-components: always
+        metrics:
+          enabled: true
+        prometheus:
+          enabled: true
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+        distribution:
+          percentiles-histogram:
+            http.server.requests: true

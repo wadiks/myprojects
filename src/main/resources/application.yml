@@ -44,5 +44,3 @@ management:
         request:
           autotime:
             enabled: true
-  server:
-    port: 8001  # Дополнительный порт для actuator

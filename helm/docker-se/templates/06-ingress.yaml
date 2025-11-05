@@ -4,42 +4,15 @@ metadata:
   name: user-ingress
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
     - host: arch.homework
       http:
         paths:
-          - path: /user/add
-            pathType: Exact
-            backend:
-              service:
-                name: user-service
-                port:
-                  number: 80
-          - path: /user/get_all
-            pathType: Exact
-            backend:
-              service:
-                name: user-service
-                port:
-                  number: 80
-          - path: /user/get
+          - path: /
             pathType: Prefix
-            backend:
-              service:
-                name: user-service
-                port:
-                  number: 80
-          - path: /user/delete
-            pathType: Prefix
-            backend:
-              service:
-                name: user-service
-                port:
-                  number: 80
-          - path: /user/edit
-            pathType: Exact
             backend:
               service:
                 name: user-service
